@@ -110,6 +110,49 @@ run_detector.py
 
 ---
 
+## 🔍 Analyzing Your Own Code
+
+GuardRail-Py is **not limited to internal demo files**.
+You can analyze **any Python file or codebase** by pointing the AST parser to your own source files.
+
+### Analyze a Single File
+
+```python
+parser = ASTParser()
+parser.parse_file("path/to/your_code.py")
+
+detector = ComplexityDetector(parser)
+warnings = detector.analyze()
+```
+
+### Analyze Multiple Files
+
+```python
+files = [
+    "src/module_a.py",
+    "src/module_b.py",
+    "scripts/data_processing.py",
+]
+
+parser = ASTParser()
+for file_path in files:
+    parser.parse_file(file_path)
+
+detector = ComplexityDetector(parser)
+warnings = detector.analyze()
+
+print(f"Found {len(warnings)} potential issues")
+```
+
+This design makes GuardRail-Py suitable for:
+
+* Code reviews
+* CI/CD pipelines
+* Pre-commit checks
+* Static analysis workflows
+
+---
+
 ## 🌍 Real-world Validation
 
 GuardRail-Py is validated against a deliberately inefficient Python file designed to replicate **real performance issues commonly found in junior developer submissions and legacy production code**.
