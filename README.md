@@ -12,12 +12,13 @@
 
 ## 🎯 Project Vision
 
-GuardRail-Py automates code review checks that I frequently perform as a Lead Engineer mentoring junior developers.
-Instead of relying on regex-based text scanning, it uses Python’s **Abstract Syntax Tree (AST)** to understand code structure, enabling accurate detection of:
+GuardRail-Py automates code review checks that I regularly perform as a Lead Engineer mentoring junior developers.
+
+Rather than relying on fragile regex-based scanning, GuardRail-Py uses Python’s **Abstract Syntax Tree (AST)** to understand real code structure, enabling accurate detection of:
 
 * 🔒 **Security vulnerabilities** (hardcoded secrets, dangerous functions)
 * ⚡ **Performance issues** (O(n²) algorithms, inefficient patterns)
-* 📚 **Maintainability concerns** (missing documentation, style violations)
+* 📚 **Maintainability concerns** (anti-patterns and poor practices)
 
 ---
 
@@ -33,9 +34,26 @@ Instead of relying on regex-based text scanning, it uses Python’s **Abstract S
 ### Phase 2: Core Features
 
 * ✅ **Feature 1: AST Parser** (Complete)
-* 🔄 Feature 2: Complexity Detector (O(n²) checker)
-* ⏳ Feature 3: Secret Scanner
+* ✅ **Feature 2: Complexity Detector (O(n²) Checker)** (Complete)
+* 🔄 Feature 3: Secret Scanner
 * ⏳ Feature 4: CLI Wrapper
+
+---
+
+## 📦 Installation
+
+```bash
+git clone https://github.com/JoshuaGr33n/GuardRail-Py.git
+cd GuardRail-Py
+
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+
+pip install -r requirements.txt
+```
+
+> GuardRail-Py is currently a **library-first tool**.
+> A CLI wrapper will be introduced in a future phase.
 
 ---
 
@@ -43,109 +61,121 @@ Instead of relying on regex-based text scanning, it uses Python’s **Abstract S
 
 The AST Parser is the **core engine** of GuardRail-Py and demonstrates deep knowledge of Python internals.
 
-### Key Capabilities
-
-1. **Structural Code Analysis** using Python’s `ast` module
-2. **Visitor Pattern Architecture** for extensibility
-3. **Complexity Analysis** (nested loops, function depth)
-4. **Graceful Error Handling** for syntax issues
-5. **Comprehensive Test Coverage**
-
 ### Example Usage
 
 ```python
 from guardrail.ast_parser import ASTParser
 
 parser = ASTParser()
-
-# Parse a Python file
 parser.parse_file("example.py")
 
-# Inspect code structure
-functions = parser.get_functions()
-classes = parser.get_classes()
-loops = parser.get_loops()
-
-# Detect potential performance issues
 analysis = parser.analyze_complexity()
 if analysis["has_nested_loops"]:
     print("⚠️ Potential O(n²) performance issue detected!")
 ```
 
-### Lead Engineer Skills Demonstrated
+A complete, runnable demonstration is available in:
 
-* ✅ Deep Python Internals (AST module)
-* ✅ Software Architecture (Visitor pattern)
-* ✅ Testing & Quality (pytest-based test suite)
-* ✅ Robust Error Handling
-* ✅ Clear Documentation
-
----
-
-## 📋 Rules Implemented
-
-See [`RULES.md`](RULES.md) for a full specification of all security, performance, and quality rules enforced by GuardRail-Py.
-
----
-
-## 🚀 Getting Started
-
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/GuardRail-Py.git
-cd GuardRail-Py
-
-# Create and activate virtual environment
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-
-# Install dependencies (once packaging is added)
-pip install -e .
-
-# Run the AST parser example
-python example_usage.py
 ```
+example_usage.py
+```
+
+---
+
+## ⚡ Feature 2: Complexity Detector (Complete)
+
+The **Complexity Detector** identifies performance anti-patterns commonly found in real-world Python codebases, with a strong focus on **O(n²)** behavior.
+
+### Example Usage (Manual Run)
+
+```python
+from guardrail.ast_parser import ASTParser
+from guardrail.complexity_detector import ComplexityDetector
+
+parser = ASTParser()
+parser.parse_file("test_performance_issues.py")
+
+detector = ComplexityDetector(parser)
+warnings = detector.analyze()
+
+for warning in warnings:
+    print(f"{warning.severity}: {warning.message}")
+```
+
+A ready-to-run example script is provided:
+
+```
+run_detector.py
+```
+
+---
+
+## 🌍 Real-world Validation
+
+GuardRail-Py is validated against a deliberately inefficient Python file designed to replicate **real performance issues commonly found in junior developer submissions and legacy production code**.
+
+The validation file:
+
+```
+test_performance_issues.py
+```
+
+Contains intentional examples of:
+
+* O(n²) and O(n³) nested loops
+* Inefficient string concatenation inside loops
+* Suboptimal list-building patterns
+* Repeated unnecessary computations
+
+During validation runs, GuardRail-Py successfully detected **11 distinct performance issues**, including precise line-level locations and optimization guidance.
+
+This demonstrates GuardRail-Py’s effectiveness at identifying **non-trivial algorithmic risks before runtime**, making it suitable for:
+
+* Code reviews
+* CI pipelines
+* Performance-focused engineering workflows
 
 ---
 
 ## 🧪 Testing
 
+All core features are covered by automated unit tests.
+
 ```bash
-# Run all tests
 python -m pytest tests/
-
-# Run tests with coverage
-python -m pytest tests/ --cov=guardrail --cov-report=html
-
-# Run a specific test
-python -m pytest tests/test_ast_parser.py -v
 ```
+
+The test suite verifies:
+
+* AST parsing correctness
+* Complexity detection accuracy
+* Edge-case handling
+* Regression safety
 
 ---
 
 ## 📊 Development Timeline
 
-* **Week 1:** Infrastructure setup ✅
+* **Week 1:** Infrastructure and CI/CD setup ✅
 * **Week 2:** AST Parser implementation ✅
-* **Week 3:** Complexity & security checkers (in progress)
-* **Week 4:** CLI wrapper and packaging
-* **Week 5:** Final testing and documentation
+* **Week 3:** Complexity Detector implementation ✅
+* **Week 4:** Security scanning rules
+* **Week 5:** CLI wrapper and packaging
 
 ---
 
 ## 👨‍💻 Author
 
 **Joshua Oleru**
-Lead Engineer applying for **UK Global Talent Visa (Tech Nation)**
+Lead Engineer applying for the **UK Global Talent Visa (Tech Nation)**
 
 This project demonstrates:
 
-* ✅ DevOps & CI/CD (GitHub Actions)
-* ✅ Professional documentation standards
-* ✅ Automated testing (pytest)
-* ✅ Code quality enforcement
-* ✅ Advanced Python internals
-* ✅ Scalable software architecture
+* ✅ Advanced Python internals (AST analysis)
+* ✅ Performance engineering and code review expertise
+* ✅ Professional documentation and licensing
+* ✅ Automated testing and CI/CD awareness
+* ✅ Scalable, extensible software architecture
 
 ---
 

@@ -18,7 +18,10 @@ dependencies = []
 [project.optional-dependencies]
 dev = [
     "pytest",
-    "flake8"
+    "flake8",
+    "pytest",
+    "pytest-cov",
+    "pytest-xdist"
 ]
 
 [tool.setuptools.packages.find]

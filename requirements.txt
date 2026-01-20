@@ -1,6 +1,7 @@
-# Core dependencies
+# Core runtime dependency (CLI - upcoming)
 click>=8.0.0
 
-# Development dependencies
+# Testing & development
 pytest>=7.0.0
 pytest-cov>=4.0.0
+pytest-xdist>=3.5.0
