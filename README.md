@@ -6,37 +6,37 @@
 
 > **Automated Code Compliance & Security Scanner for Python**
 >
-> Built as evidence for a **UK Global Talent Visa (Tech Nation)** application, demonstrating Lead Engineer skills in AST manipulation, security scanning, and performance optimization.
+> Built as evidence for a **UK Global Talent Visa (Tech Nation)** application, demonstrating Lead Engineer skills in **AST manipulation, security scanning, performance analysis, and scalable tooling design**.
 
 ---
 
 ## 🎯 Project Vision
 
-GuardRail-Py automates code review checks that I regularly perform as a Lead Engineer mentoring junior developers.
+GuardRail-Py automates code review checks that I regularly perform as a **Lead Engineer mentoring junior developers**.
 
-Rather than relying on fragile regex-based scanning, GuardRail-Py uses Python’s **Abstract Syntax Tree (AST)** to understand real code structure, enabling accurate detection of:
+Instead of relying on fragile regex-based scanning, GuardRail-Py uses Python’s **Abstract Syntax Tree (AST)** to understand real code structure, enabling accurate detection of:
 
-* 🔒 **Security vulnerabilities** (hardcoded secrets, dangerous functions)
-* ⚡ **Performance issues** (O(n²) algorithms, inefficient patterns)
-* 📚 **Maintainability concerns** (anti-patterns and poor practices)
+- 🔒 **Security vulnerabilities** (hardcoded secrets, credentials, API keys)
+- ⚡ **Performance issues** (O(n²) and higher complexity patterns)
+- 📚 **Maintainability concerns** (anti-patterns and poor practices)
+
+The goal is to catch **real-world engineering risks before runtime**, during code review or CI.
 
 ---
 
 ## 🏗️ Current Status
 
-### Phase 1: Infrastructure Setup ✅
+### **Phase 1: Infrastructure Setup** ✅
+- ✅ MIT License added
+- ✅ Rules specification documented (`RULES.md`)
+- ✅ CI/CD pipeline configured (GitHub Actions)
+- ✅ Professional README with badges
 
-* ✅ MIT License added
-* ✅ Rules specification documented (`RULES.md`)
-* ✅ CI/CD pipeline configured (GitHub Actions)
-* ✅ Professional README with badges
-
-### Phase 2: Core Features
-
-* ✅ **Feature 1: AST Parser** (Complete)
-* ✅ **Feature 2: Complexity Detector (O(n²) Checker)** (Complete)
-* 🔄 Feature 3: Secret Scanner
-* ⏳ Feature 4: CLI Wrapper
+### **Phase 2: Core Features**
+- ✅ **Feature 1: AST Parser** (Complete!)
+- ✅ **Feature 2: Complexity Detector (O(n²) Checker)** (Complete!)
+- ✅ **Feature 3: Secret Scanner (Security)** (Complete!)
+- 🔄 Feature 4: CLI Wrapper
 
 ---
 
@@ -50,7 +50,7 @@ python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 
 pip install -r requirements.txt
-```
+````
 
 > GuardRail-Py is currently a **library-first tool**.
 > A CLI wrapper will be introduced in a future phase.
@@ -74,7 +74,7 @@ if analysis["has_nested_loops"]:
     print("⚠️ Potential O(n²) performance issue detected!")
 ```
 
-A complete, runnable demonstration is available in:
+A complete runnable example is available in:
 
 ```
 example_usage.py
@@ -84,9 +84,9 @@ example_usage.py
 
 ## ⚡ Feature 2: Complexity Detector (Complete)
 
-The **Complexity Detector** identifies performance anti-patterns commonly found in real-world Python codebases, with a strong focus on **O(n²)** behavior.
+The **Complexity Detector** identifies performance anti-patterns commonly found in real-world Python codebases, with a strong focus on **O(n²)** and higher-order complexity.
 
-### Example Usage (Manual Run)
+### Example Usage
 
 ```python
 from guardrail.ast_parser import ASTParser
@@ -110,12 +110,112 @@ run_detector.py
 
 ---
 
+## 🔒 Feature 3: Secret Scanner (Complete!)
+
+The **Secret Scanner** detects **hardcoded secrets, API keys, passwords, and sensitive credentials** in Python source code.
+
+This feature demonstrates **security governance and compliance awareness** expected of a Lead Engineer.
+
+### 🔑 Key Capabilities
+
+1. **API Key Detection**
+
+   * Stripe, GitHub tokens, JWTs, etc.
+2. **Password Detection**
+
+   * Hardcoded passwords in variables
+3. **AWS Credential Detection**
+
+   * Access keys and secret keys
+4. **Database URL Detection**
+
+   * Connection strings with embedded credentials
+5. **Heuristic Analysis**
+
+   * Identifies potential secrets via entropy and naming patterns
+6. **CWE Compliance**
+
+   * Maps findings to **CWE-798 (Use of Hard-coded Credentials)**
+7. **Actionable Recommendations**
+
+   * Clear remediation guidance for each finding
+
+---
+
+### 🛠️ Technical Implementation
+
+```python
+from guardrail.ast_parser import ASTParser
+from guardrail.secret_scanner import SecretScanner
+
+parser = ASTParser()
+parser.parse_file("code_with_secrets.py")
+
+scanner = SecretScanner(parser)
+warnings = scanner.analyze()
+
+for warning in warnings:
+    print(f"🔒 {warning.severity}: {warning.message}")
+    print(f"   Variable: {warning.variable_name}")
+    print(f"   Recommendation: {warning.recommendation}")
+    print(f"   CWE: {warning.cwe_id}")
+```
+
+---
+
+### 📄 Example Output
+
+```text
+[GUARDRAIL-PY] Security Analysis Report
+=======================================
+File: config.py
+Total warnings: 3 (2 CRITICAL, 1 HIGH)
+
+[CRITICAL] Hardcoded API key detected in assignment to 'STRIPE_SECRET_KEY'
+           Location: line 15
+           Value: sk_live_49J4...F8EJ
+           CWE: CWE-798
+           Recommendation: Store 'STRIPE_SECRET_KEY' in environment variables...
+
+[CRITICAL] Hardcoded password detected in assignment to 'DATABASE_PASSWORD'
+           Location: line 22
+           Value: P@ssw0rd123!
+           Recommendation: Never store passwords in source code...
+
+[HIGH] Database URL with credentials detected in assignment to 'DATABASE_URL'
+        Location: line 30
+        Value: postgresql://admin:***@localhost/mydb
+        Recommendation: Store database connection strings in environment variables...
+```
+
+---
+
+### 🧠 Security Patterns Detected
+
+* Stripe API keys (`sk_live_`, `sk_test_`)
+* AWS credentials (`AKIA...`, secret keys)
+* JWT tokens
+* Database URLs with embedded credentials
+* Generic secrets in variables like `PASSWORD`, `SECRET`, `KEY`
+* High-entropy strings likely representing secrets
+
+---
+
+### 👨‍💼 Lead Engineer Skills Demonstrated
+
+* ✅ **Security Governance** – Preventing credential leaks and breaches
+* ✅ **Compliance Knowledge** – CWE-798 and secure coding standards
+* ✅ **Risk Mitigation** – Proactive vulnerability detection
+* ✅ **Best Practices** – Secrets management awareness
+* ✅ **Professional Reporting** – Clear, actionable security feedback
+
+---
+
 ## 🔍 Analyzing Your Own Code
 
-GuardRail-Py is **not limited to internal demo files**.
-You can analyze **any Python file or codebase** by pointing the AST parser to your own source files.
+GuardRail-Py can analyze **any Python file or codebase**.
 
-### Analyze a Single File
+### Single File
 
 ```python
 parser = ASTParser()
@@ -125,7 +225,7 @@ detector = ComplexityDetector(parser)
 warnings = detector.analyze()
 ```
 
-### Analyze Multiple Files
+### Multiple Files
 
 ```python
 files = [
@@ -144,39 +244,27 @@ warnings = detector.analyze()
 print(f"Found {len(warnings)} potential issues")
 ```
 
-This design makes GuardRail-Py suitable for:
+Suitable for:
 
 * Code reviews
 * CI/CD pipelines
-* Pre-commit checks
+* Pre-commit hooks
 * Static analysis workflows
 
 ---
 
 ## 🌍 Real-world Validation
 
-GuardRail-Py is validated against a deliberately inefficient Python file designed to replicate **real performance issues commonly found in junior developer submissions and legacy production code**.
+GuardRail-Py is validated against deliberately inefficient and insecure Python files designed to replicate **real issues found in production and junior submissions**.
 
-The validation file:
-
-```
-test_performance_issues.py
-```
-
-Contains intentional examples of:
+Validation includes detection of:
 
 * O(n²) and O(n³) nested loops
-* Inefficient string concatenation inside loops
-* Suboptimal list-building patterns
-* Repeated unnecessary computations
+* Inefficient string concatenation
+* Suboptimal list-building
+* Hardcoded secrets and credentials
 
-During validation runs, GuardRail-Py successfully detected **11 distinct performance issues**, including precise line-level locations and optimization guidance.
-
-This demonstrates GuardRail-Py’s effectiveness at identifying **non-trivial algorithmic risks before runtime**, making it suitable for:
-
-* Code reviews
-* CI pipelines
-* Performance-focused engineering workflows
+During validation runs, GuardRail-Py detected **multiple performance and security issues with line-level accuracy**, proving its effectiveness in **preventing real engineering risks before deployment**.
 
 ---
 
@@ -188,10 +276,11 @@ All core features are covered by automated unit tests.
 python -m pytest tests/
 ```
 
-The test suite verifies:
+Test coverage includes:
 
 * AST parsing correctness
 * Complexity detection accuracy
+* Secret scanning reliability
 * Edge-case handling
 * Regression safety
 
@@ -202,8 +291,8 @@ The test suite verifies:
 * **Week 1:** Infrastructure and CI/CD setup ✅
 * **Week 2:** AST Parser implementation ✅
 * **Week 3:** Complexity Detector implementation ✅
-* **Week 4:** Security scanning rules
-* **Week 5:** CLI wrapper and packaging
+* **Week 4:** Secret Scanner & security rules ✅
+* **Week 5:** CLI wrapper and packaging 🔄
 
 ---
 
@@ -214,11 +303,11 @@ Lead Engineer applying for the **UK Global Talent Visa (Tech Nation)**
 
 This project demonstrates:
 
-* ✅ Advanced Python internals (AST analysis)
-* ✅ Performance engineering and code review expertise
-* ✅ Professional documentation and licensing
-* ✅ Automated testing and CI/CD awareness
-* ✅ Scalable, extensible software architecture
+* Advanced Python internals (AST analysis)
+* Performance engineering expertise
+* Security governance and compliance awareness
+* Professional documentation and CI/CD
+* Scalable, extensible software architecture
 
 ---
 
@@ -226,3 +315,7 @@ This project demonstrates:
 
 This project is licensed under the **MIT License**.
 See the [`LICENSE`](LICENSE) file for details.
+
+
+
+
