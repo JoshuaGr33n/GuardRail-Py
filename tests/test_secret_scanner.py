@@ -240,87 +240,87 @@ password = "Secret123"
     
     # In tests/test_secret_scanner.py, update the test_complex_real_world_example method:
 
-def test_complex_real_world_example(self):
-    """Test a more complex real-world example."""
-    source = '''
-import os
-from typing import Dict
+    def test_complex_real_world_example(self):
+        """Test a more complex real-world example."""
+        source = '''
+    import os
+    from typing import Dict
 
-class DatabaseConfig:
-    """Database configuration with hardcoded secrets (DON'T DO THIS!)."""
+    class DatabaseConfig:
+        """Database configuration with hardcoded secrets (DON'T DO THIS!)."""
 
-    def __init__(self):
-        # ❌ BAD: Hardcoded credentials
-        self.host = "localhost"
-        self.port = 5432
-        self.database = "mydb"
-        self.username = "admin"
-        self.password = "P@ssw0rd123!"  # Secret!
+        def __init__(self):
+            # ❌ BAD: Hardcoded credentials
+            self.host = "localhost"
+            self.port = 5432
+            self.database = "mydb"
+            self.username = "admin"
+            self.password = "P@ssw0rd123!"  # Secret!
 
-        # Connection string with embedded credentials
-        self.connection_string = f"postgresql://{self.username}:{self.password}@{self.host}:{self.port}/{self.database}"
-
-
-class APIClient:
-    """API client with hardcoded keys."""
-
-    def __init__(self):
-        # ❌ BAD: Hardcoded API key
-        self.api_key = "sk_live_49J4D9F849JF84JF8EJF84EJF8EJ"
-        self.base_url = "https://api.example.com"
-
-    def make_request(self, endpoint: str, data: Dict = None):
-        """Make API request with authorization."""
-        import requests
-
-        headers = {
-            "Authorization": f"Bearer {self.api_key}",  # Secret in header!
-            "Content-Type": "application/json"
-        }
-
-        url = f"{self.base_url}/{endpoint}"
-        response = requests.post(url, json=data, headers=headers)
-        return response.json()
+            # Connection string with embedded credentials
+            self.connection_string = f"postgresql://{self.username}:{self.password}@{self.host}:{self.port}/{self.database}"
 
 
-# ❌ BAD: AWS credentials in code
-AWS_CONFIG = {
-    "access_key_id": "AKIAIOSFODNN7EXAMPLE",
-    "secret_access_key": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
-    "region": "us-east-1"
-}
+    class APIClient:
+        """API client with hardcoded keys."""
+
+        def __init__(self):
+            # ❌ BAD: Hardcoded API key
+            self.api_key = "sk_live_49J4D9F849JF84JF8EJF84EJF8EJ"
+            self.base_url = "https://api.example.com"
+
+        def make_request(self, endpoint: str, data: Dict = None):
+            """Make API request with authorization."""
+            import requests
+
+            headers = {
+                "Authorization": f"Bearer {self.api_key}",  # Secret in header!
+                "Content-Type": "application/json"
+            }
+
+            url = f"{self.base_url}/{endpoint}"
+            response = requests.post(url, json=data, headers=headers)
+            return response.json()
 
 
-def get_database_connection():
-    """Get database connection (BAD EXAMPLE)."""
-    # Another hardcoded connection string
-    conn_str = "mysql://root:rootpassword@localhost:3306/appdb"
-    return create_engine(conn_str)
-'''
-
-    self.parser.parse_source(source)
-    self.scanner = SecretScanner(self.parser)
-    warnings = self.scanner.analyze()
-
-    # Should find at least 2 security issues (API key and database URL)
-    # Note: AWS detection might not work due to string being in dict
-    assert len(warnings) >= 2  # Changed from >= 3 to >= 2
-    
-    # Check for specific issue types
-    issue_types = {w.issue_type for w in warnings}
-    
-    # At least one of these should be present
-    expected_issues = {
-        SecurityIssue.HARDCODED_API_KEY,
-        SecurityIssue.HARDCODED_PASSWORD, 
-        SecurityIssue.DATABASE_URL
+    # ❌ BAD: AWS credentials in code
+    AWS_CONFIG = {
+        "access_key_id": "AKIAIOSFODNN7EXAMPLE",
+        "secret_access_key": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+        "region": "us-east-1"
     }
-    
-    assert len(issue_types.intersection(expected_issues)) > 0
-    
-    # Check severities
-    critical_warnings = [w for w in warnings if w.severity == "CRITICAL"]
-    assert len(critical_warnings) > 0
+
+
+    def get_database_connection():
+        """Get database connection (BAD EXAMPLE)."""
+        # Another hardcoded connection string
+        conn_str = "mysql://root:rootpassword@localhost:3306/appdb"
+        return create_engine(conn_str)
+    '''
+
+        self.parser.parse_source(source)
+        self.scanner = SecretScanner(self.parser)
+        warnings = self.scanner.analyze()
+
+        # Should find at least 2 security issues (API key and database URL)
+        # Note: AWS detection might not work due to string being in dict
+        assert len(warnings) >= 2  # Changed from >= 3 to >= 2
+        
+        # Check for specific issue types
+        issue_types = {w.issue_type for w in warnings}
+        
+        # At least one of these should be present
+        expected_issues = {
+            SecurityIssue.HARDCODED_API_KEY,
+            SecurityIssue.HARDCODED_PASSWORD, 
+            SecurityIssue.DATABASE_URL
+        }
+        
+        assert len(issue_types.intersection(expected_issues)) > 0
+        
+        # Check severities
+        critical_warnings = [w for w in warnings if w.severity == "CRITICAL"]
+        assert len(critical_warnings) > 0
 
 
 def test_secret_warning_dataclass():
@@ -351,5 +351,5 @@ def test_secret_warning_dataclass():
     assert '...' in warning_dict['secret_value']  # Should be masked
 
 
-if __name__ == "__main__":
-    pytest.main([__file__, "-v"])
+# if __name__ == "__main__":
+#     pytest.main([__file__, "-v"])

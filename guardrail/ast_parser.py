@@ -16,6 +16,7 @@ import os
 from typing import Optional, List, Dict, Any, Union
 from dataclasses import dataclass
 from enum import Enum
+import textwrap
 
 
 class NodeType(Enum):
@@ -122,6 +123,8 @@ class ASTParser:
             >>> parser = ASTParser()
             >>> tree = parser.parse_source("def hello():\\n    print('world')")
         """
+        source_code = textwrap.dedent(source_code).lstrip("\n")
+        
         self.source_code = source_code
         self.filename = filename or "<string>"
         self._lines = source_code.splitlines()
