@@ -6,7 +6,7 @@
 
 > **Automated Code Compliance & Security Scanner for Python**
 >
-> Built as evidence for a **UK Global Talent Visa (Tech Nation)** application, demonstrating Lead Engineer skills in **AST manipulation, security scanning, performance analysis, and scalable tooling design**.
+> **GuardRail-Py** automates the code review checks that matter most in production Python systems — using **AST manipulation** to catch security vulnerabilities, performance anti-patterns, and maintainability risks before they reach deployment.
 
 ---
 
@@ -298,8 +298,8 @@ Test coverage includes:
 
 ## 👨‍💻 Author
 
-**Joshua Oleru**
-Lead Engineer applying for the **UK Global Talent Visa (Tech Nation)**
+**Joshua Oleru** — Senior Python Engineer
+This project demonstrates advanced Python internals (AST analysis), security governance, performance engineering, and scalable tooling design — built to the standard I hold production systems to.
 
 This project demonstrates:
 
